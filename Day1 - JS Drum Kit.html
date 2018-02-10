@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="css/all1.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="sounds/day1/clap.wav"></audio>
+  <audio data-key="83" src="sounds/day1/hihat.wav"></audio>
+  <audio data-key="68" src="sounds/day1/kick.wav"></audio>
+  <audio data-key="70" src="sounds/day1/openhat.wav"></audio>
+  <audio data-key="71" src="sounds/day1/boom.wav"></audio>
+  <audio data-key="72" src="sounds/day1/ride.wav"></audio>
+  <audio data-key="74" src="sounds/day1/snare.wav"></audio>
+  <audio data-key="75" src="sounds/day1/tom.wav"></audio>
+  <audio data-key="76" src="sounds/day1/tink.wav"></audio>
+
+<script>
+
+    function playSound(e) {
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            if(!audio) {return}; //stop the function from running
+            audio.currentTime = 0; //倒轉音樂檔使其重新撥放
+            // currentTime - 設置該屬性時，播放會跳躍到指定的位置(秒)。
+            audio.play();
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            // 在原有 class 後添加 playing, classList 物件另有 remove(), toggle 可使用.
+            key.classList.add('playing');
+
+            // 利用 setTimeout 延遲去除 class
+            // setTimeout(function() {
+            //     key.classList.remove('playing');}
+            //     , 400);
+        }
+
+    function removeTransition(e){
+        if(e.propertyName !== 'transform'){return}
+        this.classList.remove('playing');
+    };
+
+    window.addEventListener('keydown', playSound);
+
+    // 監聽 transitionend 事件來移除 class
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+</script>
+
+
+</body>
+</html>

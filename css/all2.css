@@ -1,0 +1,98 @@
+html {
+      background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+      background-size:cover;
+      font-family:'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+body {
+    margin: 0;
+    font-size: 2rem;
+    display:flex;
+    justify-content: center;
+    flex:1;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.clock {
+    width: 30rem;
+    height: 30rem;
+    border: 20px solid #1902298a;
+    border-radius:50%;
+    position: relative;
+    padding:2rem;
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.1), inset 0 0 0 3px #11190d8f, inset 0 0 10px black, 0 0 10px rgba(0,0,0,0.2);
+}
+
+.clock-face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-3px); /* account for the height of the clock hands */
+}
+
+.clock-center{
+    width: 5%;
+    height: 5%;
+    background: rgb(120, 123, 128);
+    position: absolute;
+    left: 47.5%;
+    top: 48%;
+    z-index: 5;
+    border-radius: 50%;
+}
+
+.hand {
+    width: 45%;
+    left: 5%;
+    height:8px;
+    background: #00a916;
+    position: absolute;
+    top:50%;
+    /* 利用 transform-origin 讓旋轉中心於 x 軸 100% */
+    transform-origin: 100%;
+    /* 利用 transform: rotate(deg) 旋轉物件(指針初始化) */
+    transform: rotate(90deg);
+    transition: all 0.05s;
+    z-index: 3;
+    border-radius: 10px;
+}
+
+.hand.hour-hand{
+    width: 25%;
+    height: 4px;
+    left: 25%;
+    background: rgba(242, 0, 9, 0.931);
+}
+
+.hand.min-hand{
+    width: 35%;
+    height: 6px;
+    left: 15%;
+    background: #ff8833;
+}
+
+.number{
+    position: absolute;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+.number.up{
+    top: -5%;
+    left: 45%;
+}
+.number.right{
+    top: 42.5%;
+    right: -2%;
+}
+.number.down{
+    bottom: -5%;
+    left: 47%;
+}
+.number.left{
+    top: 42.5%;
+    left: -1%;
+}

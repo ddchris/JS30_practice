@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+  <link rel="stylesheet" href="./css/all2.css">
+</head>
+
+<body>
+
+
+  <div class="clock">
+    <div class="clock-face">
+      <div class="clock-center"></div>
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
+      <div class="number up">12</div>
+      <div class="number right">3</div>
+      <div class="number down">6</div>
+      <div class="number left">9</div>
+    </div>
+  </div>
+
+  <script>
+    let secondHand = document.querySelector('.hand.second-hand');
+    let minuteHand = document.querySelector('.hand.min-hand');
+    let hourHand = document.querySelector('.hand.hour-hand');
+
+    let secDeg;
+    let minDeg;
+    let hourDeg;
+
+    function setInitTime() {
+      let now = new Date();
+      let sec = now.getSeconds();
+      secDeg = (sec / 60) * 360 + 90;
+      // console.log(seconds);
+
+      let min = now.getMinutes();
+      minDeg = (min / 60) * 360 + 90;
+
+      let hour = now.getHours();
+      hourDeg = (hour / 12) * 360 + 90;
+
+      secondHand.style.transform = `rotate(${secDeg}deg)`;
+      minuteHand.style.transform = `rotate(${minDeg}deg)`;
+      hourHand.style.transform = `rotate(${hourDeg}deg)`;
+    }
+
+    function changeTime() {
+      // 每秒鐘各指針角度變化
+      secDeg += 6;
+      minDeg += 0.1;
+      hourDeg += 1 / 120;
+
+      secondHand.style.transform = `rotate(${secDeg}deg)`;
+      minuteHand.style.transform = `rotate(${minDeg}deg)`;
+      hourHand.style.transform = `rotate(${hourDeg}deg)`;
+    }
+
+    setInitTime();
+
+    // 利用 setInterval(func,ms)每秒執行一次函數
+    setInterval(changeTime, 1000);
+
+  </script>
+</body>
+
+</html>

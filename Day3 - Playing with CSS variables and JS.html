@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scoped CSS Variables and JS</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+
+<body>
+    <div id="app">
+        <h2>Try to Change
+            <span class='hl'>CSS</span> with
+            <span class='hl'>JS</span>
+        </h2>
+
+        <div class="controls">
+            <label for="spacing">Spacing:</label>
+            <!-- vue 監聽事件可利用 $event 傳入事件參數 -->
+            <input id="spacing" type="range" name="spacing" min="10" max="200" value="20" data-sizing="px" @change="handleUpdate($event)">
+
+            <label for="grayscale">grayscale:</label>
+            <input id="grayscale" type="range" name="grayscale" min="0" max="100" value="0" data-sizing="%" @change="handleUpdate($event)">
+
+            <label for="base">Base Color</label>
+            <input id="base" type="color" name="base" value="#27e716" @change="handleUpdate($event)">
+        </div>
+    </div>
+    <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+
+    <style>
+        /* 設定 CSS 變數並套用至特定位置 */
+
+        :root {
+            --grayscale: 0%;
+            --base: #27e716;
+            --spaceing: 200px;
+        }
+
+        img {
+            padding: var(--spacing);
+            background: var(--base);
+            filter: grayscale(var(--grayscale));
+        }
+
+        .hl {
+            color: var(--base);
+        }
+
+        /*
+      misc styles, nothing to do with CSS variables
+    */
+
+        body {
+            text-align: center;
+            background: #193549;
+            color: rgb(255, 255, 255);
+            font-family: 'helvetica neue', sans-serif;
+            font-weight: 100;
+            font-size: 50px;
+        }
+
+        .controls {
+            margin-bottom: 50px;
+        }
+
+        input {
+            width: 100px;
+        }
+    </style>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            mounted() {
+                document.documentElement.style.setProperty(
+                    `--spacing`, '20px');
+            },
+            methods: {
+                handleUpdate(e) {
+                    //取得 dataset 物件儲存之屬性
+                    let suffix = e.target.dataset.sizing || '';
+
+                    // 利用 documentElement 操縱 CSS 變數
+                    document.documentElement.style.setProperty(`--${e.target.name}`
+                        , e.target.value + suffix)
+                }
+            }
+        });
+    </script>
+    <!-- <script>    
+        const inputs = document.querySelectorAll('.controls input');
+
+        function handleUpdate() {
+            const suffix = this.dataset.sizing || '';
+            document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+        }
+
+        inputs.forEach(input => input.addEventListener('change', handleUpdate));
+        inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+    </script> -->
+</body>
+
+</html>

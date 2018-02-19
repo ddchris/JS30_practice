@@ -18,7 +18,7 @@
     </form>
     <script>
 
-        const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+        const endpoint = `https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json`;
 
 
         const cities = [];
@@ -55,7 +55,7 @@
         searchInput.addEventListener('change', displayMatches);
         suggestions.addEventListener('keyup', displayMatches);
 
-        // fetch 會回傳一個 promise 物件, 固可採用 then() 鍊式寫法
+        // fetch 會回傳一個 promise 物件, 故可採用 then() 鍊式寫法
         fetch(endpoint).then(blob => blob.json())
             .then(data => cities.push(...data));
 

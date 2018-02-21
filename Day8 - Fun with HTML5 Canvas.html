@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas </title>
+</head>
+
+<body>
+    <!-- &nbsp&nbsp color 🖼:
+    &nbsp&nbsp <input type="color" id="colorPicker"> -->
+    <h1>&nbsp Just draw something!</h1>
+    &nbsp&nbsp pen width 🖌:
+    &nbsp&nbsp <input type="range" id="sizePicker" max="100" min="1" value="30">
+  <canvas id="draw" width="800" height="800"></canvas>
+  <script>
+  </script>
+
+  <script>
+    
+    const canvas = document.querySelector('#draw');
+    // const colorPicker = document.querySelector('#colorPicker');
+    const sizePicker = document.querySelector('#sizePicker');
+    let size = 30;
+    // let color = '#fff';
+    // 抓取區域的 context(當作之後畫布的區域)
+    const ctx = canvas.getContext('2d');
+    // 設定 canvas 高度,寬度
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx.lineJoin = "butt";
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 30;
+
+    let lastX = 0;
+    let lastY = 0;
+    let hsu = 0;
+    
+    function draw(e) { 
+      if (!isDrowing) return;      
+      ctx.strokeStyle = `hsl( ${hsu}, 100%, 50%)`;
+      ctx.beginPath();
+      ctx.moveTo(lastX,lastY);
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [lastX,lastY] = [e.offsetX, e.offsetY];
+      // 切換顏色
+      hsu+=5;
+    }
+
+    // 滑鼠點擊事件判斷
+    let isDrowing = false;
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mousedown', (e) => {
+      isDrowing = true;
+      [lastX,lastY] = [e.offsetX, e.offsetY];
+    });
+    canvas.addEventListener('mouseout', () => isDrowing = false);
+    canvas.addEventListener('mouseup', () => isDrowing = false);
+
+    // 顏色切換
+    // colorPicker.addEventListener('change', e => {
+    //   color = e.target.value;
+    //   ctx.strokeStyle = color;
+    // });
+
+    sizePicker.addEventListener('change', e => {
+      size = e.target.value;
+      ctx.lineWidth = size;
+    });
+
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+    h1{
+      display: inline;
+    }
+  </style>
+
+</body>
+
+</html>

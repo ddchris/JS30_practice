@@ -25,7 +25,7 @@
     // let color = '#fff';
     // 抓取區域的 context(當作之後畫布的區域)
     const ctx = canvas.getContext('2d');
-    // 設定 canvas 高度,寬度
+    // 設定 canvas 高度,寬度( 初始化 )
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ctx.lineJoin = "butt";
@@ -58,6 +58,14 @@
     canvas.addEventListener('mouseout', () => isDrowing = false);
     canvas.addEventListener('mouseup', () => isDrowing = false);
 
+    // 視窗大小監控
+    window.addEventListener('resize', e =>{
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx.lineJoin = "butt";
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 30;
+    })
     // 顏色切換
     // colorPicker.addEventListener('change', e => {
     //   color = e.target.value;

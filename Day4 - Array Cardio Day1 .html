@@ -38,20 +38,26 @@
         // ____ES6 寫法___
         const fifteen = inventors.filter(inventor =>
             inventor.year >= 1500 && inventor.year <= 1600);
-        console.table(fifteen);
+        console.log(fifteen);
 
         // Array.prototype.map()
         // 2. Give us an array of the inventors' first and last names
         // Array.map() 返回長度與原陣列相同陣列並取出我們要的資料
         const fullName = inventors.map(inventor =>
             `${inventor.first} ${inventor.last} `);
-        // console.table(fullName);
+        console.log(fullName);
 
         // Array.prototype.sort()
         // 3. Sort the inventors by birthdate, oldest to youngest
         // 使用 Array.sort() 排序, 當回傳值 <0 a 排在 b 前, >0 a 排在 b 後
-        const ordered = inventors.sort((a, b) => a.year <= b.year ? -1 : 1);
-        // console.table(ordered);
+        const ordered = inventors.sort((a, b) => {
+                return a.year - b.year;
+            });
+
+        console.table(ordered);
+        console.log(ordered[1]);
+        console.log(ordered[2]);
+        console.log(ordered[3]);
         // Array.prototype.reduce()
         // 4. How many years did all the inventors live?
         // 使用 Array.reduce((pre,cur), initial value) 對每一項做重複運算

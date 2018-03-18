@@ -10,5 +10,6 @@ prcetice Javascript with: https://javascript30.com/
 ### [Day6 - Type Ahead](https://ddchris.github.io/Javascript_30_Day_practice/Day6%20-%20Type%20Ahead.html)
 ### [Day7 - Array Cardio Day2](https://ddchris.github.io/Javascript_30_Day_practice/Day7%20-%20Array%20Cardio%20Day%202.html)
 ### [Day8 - Fun with HTML5 Canvas](https://ddchris.github.io/Javascript_30_Day_practice/Day8%20-%20Fun%20with%20HTML5%20Canvas.html)
-
-
+### [Day9 - Dev Tools Domination](https://ddchris.github.io/Javascript_30_Day_practice/Day9%20-%20Dev%20Tools%20Domination.html)
+### [Day10 - Hold Shift to Check Multiple Checkbox](https://ddchris.github.io/Javascript_30_Day_practice/Day10%20-%20Hold%20Shift%20to%20Check%20Multiple%20Checkbox.html)
+### [Day14 - JavaScript References VS Copying](https://ddchris.github.io/Javascript_30_Day_practice/Day14%20-%20JavaScript%20References%20VS%20Copying.html)

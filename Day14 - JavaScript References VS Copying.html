@@ -1,152 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>JS Reference VS Copy</title>
 </head>
-
 <body>
+<script>
+// Let's say we have an array
+const players = [['222', '2222'], '111', '1111', '11111'];
 
-    <script>
-        // start with strings, numbers and booleans
-        let age = 100;
-        let age2 = age;
-        console.log('age', age);    // age 100
-        console.log('age2', age2);  // age2 100
+// and we want to make a copy of it.
+let team = players;
+console.log(players, team);
+team[1] = '333';
+console.log(players, team);
 
-        age = 200;
-        console.log('age', age);    // age 200
-        console.log('age2', age2);  // age2 100
+// 拷貝陣列的方式:
+// 1. 使用 slice() 做淺層拷貝 (swallow copy)
+const team2 = players.slice();
+// 2. 使用 concat() 做淺層拷貝
+const team3 = [].concat(players);
+// 3. 使用 spread ... 做淺層拷貝
+const team4 = [...players];
+// 4  使用 Array.from 做淺層拷貝
+const team5 = Array.from(players);
 
-        let name = 'wes';
-        let name2 = name;
-        console.log('name', name);
-        console.log('name2', name2);
-        name = 'sarah';
-        console.log('name', name);
-        console.log('name2', name2);
+team2[2] = '!!!!!';
+team3[2] = '@@@@@';
+team4[2] = '#####';
+team5[2] = '$$$$$';
 
-        // Let's say we have an array
-        const players = [['Wes', 'Penny'], 'Sarah', 'Ryan', 'Poppy'];
+console.log('player', players);
+console.log('team2 slice: ', team2);
+console.log('team3 concat: ', team3);
+console.log('team4 spread: ', team4);
+console.log('team5 Array: ', team5);
 
-        // and we want to make a copy of it.
-        let team = players;
-        console.log(players, team);
-        //["Wes", "Sarah", "Ryan", "Poppy"]
-        //["Wes", "Sarah", "Ryan", "Poppy"]
-        team[1] = 'Tom';
-        console.log(players, team);
-        //["Wes", "Tom", "Ryan", "Poppy"]
-        //["Wes", "Tom", "Ryan", "Poppy"]
+// 二層拷貝(從記憶體位置指派)
+team5.forEach((item, i) => {
+    if (typeof item == 'object') { team5[i] = [...item] };
+});
+// 二層拷貝(錯誤寫法)
+team3.forEach(item => {
+    if (typeof item == 'object') { item = [...item] };
+});
 
-        // 拷貝陣列的方式:
-        // 1. 使用 slice() 做淺層拷貝 (swallow copy)
-        const team2 = players.slice();
-        // 2. 使用 concat() 做淺層拷貝
-        const team3 = [].concat(players);
-        // 3. 使用 spread ... 做淺層拷貝
-        const team4 = [...players];
-        // 4  使用 Array.from 做淺層拷貝
-        const team5 = Array.from(players)
+// 淺層拷貝若有巢狀結構則內層仍為 By Reference
+team4[0][1] = 'Hacker'
+console.log('players[0][1]', players[0][1]);
+console.log('team2[0][1]', team2[0][1]);
+console.log('team3[0][1])', team3[0][1]);
+console.log('team5[0][1])', team5[0][1]);
 
-        team2[2] = 'Danny';
-        team3[2] = 'Craig';
-        team4[2] = 'Chris';
-        team5[2] = 'Lucas';
+// with Objects
+const person = {
+    name: '111',
+    age: 111,
+    social: {
+        fb: '222',
+        twittwr: '2222'
+    }
+};
 
-        console.log('slice: ', players, team2);
-        // [['Wes','Penny'], "Tom", "Ryan", "Poppy"]
-        // [['Wes','Penny'], "Tom", "Danny", "Poppy"]
-        console.log('concat: ', players, team3);
-        // [['Wes','Penny'], "Tom", "Ryan", "Poppy"]
-        // [['Wes','Penny'], "Tom", "Craig", "Poppy"]
-        console.log('spread: ', players, team4);
-        // [['Wes','Penny'], "Tom", "Ryan", "Poppy"]
-        // [['Wes','Penny'], "Tom", "Chris", "Poppy"]
-        console.log('Array: ', players, team5);
-        // [['Wes','Penny'], "Tom", "Ryan", "Poppy"]
-        // [['Wes','Penny'], "Tom", "Lucas", "Poppy"]
+const dog = {
+    name: 'Lucky',
+    age: 3
+}
 
-        // 二層拷貝(從記憶體位置指派)
-        team5.forEach(item => {
-           if (typeof item == 'object') {team5[team5.indexOf(item)] = [...item]};
-        });
-        // 二層拷貝(錯誤寫法)
-        team3.forEach(item => {
-           if (typeof item == 'object') {item = [...item]};
-        });
+// 物件拷貝( key 為唯一值, 若重複新的值會蓋掉舊的 ) 
+// 1. 使用 Object.assign (可用於拷貝,合併)
+const newPerson = Object.assign({}, person);
+newPerson.name = '3333';
+console.log(newPerson);
+console.log(person);
 
-        // 淺層拷貝若有巢狀結構則內層仍為 By Reference!!
-        team4[0][1] = 'Hacker'
-        console.log('players[0][1]', players[0][1]); //players[0][1] Hacker
-        console.log('team2[0][1]', team2[0][1]);     //team2[0][1] Hacker
-        console.log('team3[0][1])', team3[0][1]);    //team3[0][1]) Hacker
-        console.log('team5[0][1])', team5[0][1]);    //team5[0][1]) Penny
+// 合併
+let assignObj = Object.assign({}, person, dog);
+console.log(assignObj);
+
+// 2. 使用 spread ... 做淺層拷貝
+let spreadObj = { ...person, ...dog }
+spreadObj.blood = 'O'
+console.log(spreadObj);
+console.log(person);
+
+// (小測驗)
+a = [1, 2, 3, 4];
+b = [1, 2, 3, 4];
+c = a;
+d = [...a]
+console.log(a == b);
+console.log(a === b);
+console.log(a === c);
+console.log(a === d);
+console.log(person.social === spreadObj.social); 
 
 
-        // 拷貝子陣列
-        // 從 index 1 複製至 index 3 ( 1<= index <3 )
-        subPlayers = players.slice(1, 3);
-        console.log(subPlayers); //["Tom", "Ryan"]
-        console.log(players); //["Wes", "Tom", "Ryan", "Poppy"]
+// 物件深層拷貝 (deep copy)
+let deepObj = JSON.parse(JSON.stringify(person))
+console.log(person.social === deepObj.social);
 
-        // splice(1,3) 則是從 index 1 開始剪下 3 項
-        subPlayers = players.splice(1, 3);
-        console.log(subPlayers); //["Tom", "Ryan", "Poppy"]
-        console.log(players); //["Wes"]
-
-        // The same thing goes for objects, let's say we have a person object
-
-        // with Objects
-        const person = {
-            name: 'Wes',
-            age: 80,
-            blood:'AB',
-            social:{
-                fb:'webFB',
-                twittwr: 'webTW'
-            }
-        };
-
-        const dog = {
-            name: 'Lucky',
-            age: 3
+// 陣列深層拷貝 (利用遞迴)
+function deepCopy(arr) {
+    let len = arr.length
+    let newArr = []
+    for (let i = 0; i < len; i++) {
+        if (arr[i] instanceof Array) {
+            newArr.push(deepCopy(arr[i]))
         }
+        else if (arr[i] instanceof Object) {
+            newArr.push(JSON.parse(JSON.stringify(arr[i])))
+        }
+        else {
+            newArr.push(arr[i])
+        }
+    }
+    return newArr
+}
 
-    // 物件拷貝( key 為唯一值, 若重複新的值會蓋掉舊的 ) 
-        // 1. 使用 Object.assign (可用於拷貝,合併)
-        const newPerson = Object.assign({},person);
-        newPerson.name = 'Peter';
-        console.log(newPerson);// {name: "Peter", age: 80, blood: "AB", social: {…}}
-        console.log(person); // {name: "Wes", age: 80, blood: "AB", social: {…}}
+var Obj = [{ a: 1, b: 2, c: 3 }, 'world', [[1, 2, 3], 33, 44], 'Hello', 999]
+var newObj = deepCopy(Obj)
+console.log(Obj[2][0] === newObj[2][0]);
 
-        // 合併
-        let assignObj = Object.assign({},person,dog);
-        console.log(assignObj); // {name: "Lucky", age: 3, blood: "AB", social: {…}}
-
-        // 2. 使用 spread ... 做淺層拷貝
-        let spreadObj = {...person,...dog}
-        spreadObj.blood = 'O'
-        console.log(spreadObj); // {name: "Wes", age: 80, blood: "AB", social: {…}}
-        console.log(person); // {name: "Wes", age: 80, blood: "AB", social: {…}}
-        
-        // console.clear();
-        // 但內層資料仍指向同一位置(小測驗)
-        a = [1,2,3,4];
-        b = [1,2,3,4];
-        c = a;
-        d = [...a]
-        console.log(a == b); 
-        console.log(a === b); 
-        console.log(a === c); 
-        console.log(a === d); 
-        console.log(person.social === spreadObj.social); // true 
-        // 物件深層拷貝 (deep copy)
-        let deepObj = JSON.parse(JSON.stringify(person)) 
-        console.log(person.social === deepObj.social);  // false
-
-    </script>
+</script>
 
 </body>
 
